@@ -75,7 +75,7 @@ function getBoroughs(listings: OfficeListing[]) {
 function getPricedListings(listings: OfficeListing[]) {
   return listings.filter(
     (listing): listing is OfficeListing & { price_per_desk: number } =>
-      listing.price_per_desk !== null
+      listing.price_per_desk !== null,
   );
 }
 
@@ -110,9 +110,8 @@ function getListingAccent(listing: OfficeListing) {
 
 export function OfficeListingPage({ listings }: Props) {
   const [searchTerm, setSearchTerm] = useState("");
-  const [officeType, setOfficeType] = useState<(typeof officeTypes)[number]>(
-    "All"
-  );
+  const [officeType, setOfficeType] =
+    useState<(typeof officeTypes)[number]>("All");
   const [area, setArea] = useState("All");
   const [borough, setBorough] = useState("All");
   const pricedListings = useMemo(() => getPricedListings(listings), [listings]);
@@ -121,17 +120,18 @@ export function OfficeListingPage({ listings }: Props) {
       pricedListings.length > 0
         ? Math.max(...pricedListings.map((listing) => listing.price_per_desk))
         : 1000,
-    [pricedListings]
+    [pricedListings],
   );
   const minAvailablePrice = useMemo(
     () =>
       pricedListings.length > 0
         ? Math.min(...pricedListings.map((listing) => listing.price_per_desk))
         : 0,
-    [pricedListings]
+    [pricedListings],
   );
   const [maxPrice, setMaxPrice] = useState(maxAvailablePrice);
-  const [deskCount, setDeskCount] = useState<(typeof deskRanges)[number]>("Any");
+  const [deskCount, setDeskCount] =
+    useState<(typeof deskRanges)[number]>("Any");
 
   const filteredListings = useMemo(() => {
     return listings
@@ -178,12 +178,11 @@ export function OfficeListingPage({ listings }: Props) {
   const featuredCount = listings.filter((listing) => listing.featured).length;
   const advisorCount = new Set(listings.map((listing) => listing.advisor.name))
     .size;
-  const soonestDate = [...listings]
-    .sort(
-      (left, right) =>
-        new Date(left.available_from).getTime() -
-        new Date(right.available_from).getTime()
-    )[0]?.available_from;
+  const soonestDate = [...listings].sort(
+    (left, right) =>
+      new Date(left.available_from).getTime() -
+      new Date(right.available_from).getTime(),
+  )[0]?.available_from;
   const maxDeskCount = Math.max(...listings.map((listing) => listing.desks));
 
   return (
@@ -251,8 +250,8 @@ export function OfficeListingPage({ listings }: Props) {
                 Earliest move-in:{" "}
                 <span className="font-semibold text-foreground">
                   {soonestDate ? formatMoveInDate(soonestDate) : "On request"}
-                </span>
-                {" "}across{" "}
+                </span>{" "}
+                across{" "}
                 <span className="font-semibold text-foreground">
                   {boroughs.length} boroughs
                 </span>
@@ -276,7 +275,9 @@ export function OfficeListingPage({ listings }: Props) {
               <Select
                 value={officeType}
                 onChange={(event) =>
-                  setOfficeType(event.target.value as (typeof officeTypes)[number])
+                  setOfficeType(
+                    event.target.value as (typeof officeTypes)[number],
+                  )
                 }
               >
                 {officeTypes.map((item) => (
@@ -304,7 +305,9 @@ export function OfficeListingPage({ listings }: Props) {
               <Select
                 value={deskCount}
                 onChange={(event) =>
-                  setDeskCount(event.target.value as (typeof deskRanges)[number])
+                  setDeskCount(
+                    event.target.value as (typeof deskRanges)[number],
+                  )
                 }
               >
                 {deskRanges.map((item) => (
@@ -403,7 +406,9 @@ export function OfficeListingPage({ listings }: Props) {
                   <span>•</span>
                   <span>{formatMoveInDate(listing.available_from)}</span>
                   <span>•</span>
-                  <span>{listing.image_url ? "Photo supplied" : "Preview pending"}</span>
+                  <span>
+                    {listing.image_url ? "Photo supplied" : "Preview pending"}
+                  </span>
                 </div>
               </div>
 
@@ -475,43 +480,43 @@ export function OfficeListingPage({ listings }: Props) {
 
       <section className="px-4 pt-10 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <Card className="overflow-hidden border-primary/10 bg-primary p-8 text-primary-foreground sm:p-10">
+          <Card className="overflow-hidden border-primary/20 bg-[linear-gradient(135deg,rgba(33,74,50,1),rgba(20,54,35,1))] p-8 text-primary-foreground shadow-[0_28px_80px_rgba(20,54,35,0.28)] sm:p-10">
             <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary-foreground/70">
+                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary-foreground/75">
                   Need a smarter shortlist?
                 </p>
-                <h3 className="mt-3 font-display text-4xl leading-tight">
+                <h3 className="mt-3 font-display text-4xl leading-tight text-white">
                   Match your team with the right London workspace faster
                 </h3>
-                <p className="mt-4 max-w-2xl text-primary-foreground/80">
+                <p className="mt-4 max-w-2xl text-base leading-7 text-primary-foreground/90">
                   We can narrow the market, explain POA pricing, recommend
                   boroughs and line up viewings around your budget, team size
                   and target move-in date.
                 </p>
               </div>
-              <div className="rounded-[28px] bg-white/10 p-5 backdrop-blur-sm">
+              <div className="rounded-[28px] border border-white/15 bg-[rgba(247,250,244,0.12)] p-5 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-md">
                 <div className="space-y-3 text-sm">
-                  <div className="flex items-center justify-between gap-4 rounded-2xl bg-white/10 px-4 py-3">
+                  <div className="flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-[rgba(255,255,255,0.08)] px-4 py-3 text-primary-foreground/90">
                     <span>Typical response time</span>
-                    <strong>Under 1 hour</strong>
+                    <strong className="text-white">Under 1 hour</strong>
                   </div>
-                  <div className="flex items-center justify-between gap-4 rounded-2xl bg-white/10 px-4 py-3">
+                  <div className="flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-[rgba(255,255,255,0.08)] px-4 py-3 text-primary-foreground/90">
                     <span>Borough guidance</span>
-                    <strong>Included</strong>
+                    <strong className="text-white">Included</strong>
                   </div>
-                  <div className="flex items-center justify-between gap-4 rounded-2xl bg-white/10 px-4 py-3">
+                  <div className="flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-[rgba(255,255,255,0.08)] px-4 py-3 text-primary-foreground/90">
                     <span>Viewing coordination</span>
-                    <strong>Handled for you</strong>
+                    <strong className="text-white">Handled for you</strong>
                   </div>
                 </div>
                 <div className="mt-5 flex flex-wrap gap-3">
-                  <Button className="bg-white text-primary hover:bg-white/90">
+                  <Button className="bg-white text-primary shadow-none hover:bg-white/90">
                     Book a Call
                   </Button>
                   <Button
                     variant="outline"
-                    className="border-white/30 bg-transparent text-white hover:bg-white/10"
+                    className="border-white/25 bg-[rgba(255,255,255,0.04)] text-white hover:bg-[rgba(255,255,255,0.12)]"
                   >
                     Email an Advisor
                   </Button>
